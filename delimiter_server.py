@@ -1,8 +1,8 @@
 import socket
 from config import *
 
-sock_buf_size = BIG_RECV_BUF_SIZ # Packet coalescing problem is solved.
-# sock_buf_size = SMALL_SOCK_BUF_SIZE # Packet fragmentation problem is solved.
+sock_recv_buf_size = BIG_RECV_BUF_SIZ # Packet coalescing problem is solved.
+# sock_recv_buf_size = SMALL_RECV_BUF_SIZE # Packet fragmentation problem is solved.
 
 class DelimiterProtocolBuffer:
     """Server and client agree on a delimiter to split messages, 
@@ -20,7 +20,7 @@ class DelimiterProtocolBuffer:
             None if the socket is closed.
         """
         while self._delim not in self._buf:
-            data_recv = self._sock.recv(sock_buf_size)
+            data_recv = self._sock.recv(sock_recv_buf_size)
             if data_recv == b'': # Socket closed.
                 return None
             self._buf += data_recv
@@ -33,7 +33,7 @@ if __name__ == '__main__':
     sock_server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sock_server.bind((SERVER_IP, SERVER_PORT))
     sock_server.listen(1)
-    print(f'Server started at {SERVER_IP}:{SERVER_PORT}. Buffer size = {sock_buf_size}.')
+    print(f'Server started at {SERVER_IP}:{SERVER_PORT}. Buffer size = {sock_recv_buf_size}.')
 
     sock_conn, client_addr = sock_server.accept()
     print(f'Connected to {client_addr[0]}:{client_addr[1]}.')

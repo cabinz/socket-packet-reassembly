@@ -28,7 +28,7 @@ Received a null msg, socket has been closed on remote end.
 
 The smaller the sending interval from the client is, the more serious packet coalescing will take place. All the message sent separately will be unexpectedly merged together end retrieved by a single socket `.recv()`.
 
-## Fragmentation Problem:
+## Fragmentation Problem
 
 Fragmentation occurs when the data sent from the sender (client) side exceeds the reading buffer size of `.recv()`, or the maximum transmission unit (MTU) size allowed by the underlying network infrastructure.
 This will cause an incomplete message returns from a single call of  `.recv()`.
